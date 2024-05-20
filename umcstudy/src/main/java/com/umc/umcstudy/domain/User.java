@@ -1,10 +1,7 @@
 package com.umc.umcstudy.domain;
 
 import com.umc.umcstudy.domain.enums.Gender;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -21,6 +18,7 @@ public class User {
 
     private String password;
 
+    @Enumerated(EnumType.STRING)
     private Gender gender;
 
     private String address;

@@ -1,9 +1,7 @@
 package com.umc.umcstudy.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.umc.umcstudy.mapping.MissionProvided;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -17,4 +15,8 @@ public class ReviewAlarm {
     private long id;
 
     private String content;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "mission_provided_id")
+    private MissionProvided missionProvided;
 }
