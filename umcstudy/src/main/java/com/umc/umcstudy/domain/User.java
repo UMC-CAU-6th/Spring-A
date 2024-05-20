@@ -1,8 +1,12 @@
 package com.umc.umcstudy.domain;
 
 import com.umc.umcstudy.domain.enums.Gender;
+import com.umc.umcstudy.mapping.Prefers;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -22,4 +26,7 @@ public class User {
     private Gender gender;
 
     private String address;
+
+    @OneToMany(mappedBy = "user")
+    private List<Prefers> prefersList = new ArrayList<>();
 }

@@ -1,10 +1,11 @@
 package com.umc.umcstudy.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.umc.umcstudy.mapping.Prefers;
+import com.umc.umcstudy.mapping.RestaurantCategory;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -17,4 +18,10 @@ public class Category {
     private long id;
 
     private String name;
+
+    @OneToMany(mappedBy = "category")
+    private List<RestaurantCategory> restaurantCategoryList;
+
+    @OneToMany(mappedBy = "category")
+    private List<Prefers> prefersList;
 }
