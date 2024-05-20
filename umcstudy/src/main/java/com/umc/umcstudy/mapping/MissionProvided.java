@@ -1,4 +1,4 @@
-package com.umc.umcstudy.domain;
+package com.umc.umcstudy.mapping;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,7 +11,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Prefers {
+public class MissionProvided {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
