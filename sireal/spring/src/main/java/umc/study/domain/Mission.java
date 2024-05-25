@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package umc.study.domain;
 
 import jakarta.persistence.*;
@@ -61,3 +62,9 @@ public class Mission extends BaseEntity {
     @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL)
     private List<OngoingMission> ongoingMissions = new ArrayList<>();
 }
+=======
+package umc.study.domain;
+
+public class Mission {
+}
+>>>>>>> d889209aae336fd555a1ee3a5f1b5675adbd1059

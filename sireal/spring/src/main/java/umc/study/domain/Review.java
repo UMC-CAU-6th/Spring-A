@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package umc.study.domain;
 
 import jakarta.persistence.*;
@@ -37,3 +38,9 @@ public class Review extends BaseEntity {
     @JoinColumn(name = "mission_id")
     private Mission mission;
 }
+=======
+package umc.study.domain;
+
+public class Review {
+}
+>>>>>>> d889209aae336fd555a1ee3a5f1b5675adbd1059
