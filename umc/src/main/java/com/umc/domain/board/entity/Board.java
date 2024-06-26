@@ -1,7 +1,9 @@
 package com.umc.domain.board.entity;
 
 import com.umc.common.entity.BaseTimeEntity;
+
 import javax.persistence.*;
+
 import lombok.*;
 
 @Entity
@@ -12,8 +14,9 @@ import lombok.*;
 @AllArgsConstructor
 public class Board extends BaseTimeEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String title;
 

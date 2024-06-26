@@ -4,7 +4,9 @@ package com.umc.domain.post.entity;
 import com.umc.common.entity.BaseTimeEntity;
 import com.umc.domain.board.entity.Board;
 import com.umc.domain.user.entity.Member;
+
 import javax.persistence.*;
+
 import lombok.*;
 
 
@@ -18,7 +20,7 @@ public class Post extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "board_id")
