@@ -3,11 +3,15 @@ package com.umc.domain.post.entity;
 
 import com.umc.common.entity.BaseTimeEntity;
 import com.umc.domain.board.entity.Board;
+import com.umc.domain.comment.entity.Comment;
 import com.umc.domain.user.entity.Member;
 
 import javax.persistence.*;
 
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Getter
@@ -34,7 +38,10 @@ public class Post extends BaseTimeEntity {
 
     @ManyToOne
     @JoinColumn(name = "member_id")
-    private Member writer;
+    private Member poster;
 
     private String status;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private List<Comment> comments = new ArrayList<>();
 }

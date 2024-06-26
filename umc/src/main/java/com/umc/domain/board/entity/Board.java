@@ -4,7 +4,11 @@ import com.umc.common.entity.BaseTimeEntity;
 
 import javax.persistence.*;
 
+import com.umc.domain.post.entity.Post;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -24,4 +28,6 @@ public class Board extends BaseTimeEntity {
 
     private String status;
 
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    private List<Post> posts = new ArrayList<>();
 }

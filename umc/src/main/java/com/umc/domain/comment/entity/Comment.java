@@ -30,7 +30,7 @@ public class Comment extends BaseTimeEntity {
 
     @ManyToOne
     @JoinColumn(name = "member_id")
-    private Member writer;
+    private Member commenter;
 
     private String status;
 }
