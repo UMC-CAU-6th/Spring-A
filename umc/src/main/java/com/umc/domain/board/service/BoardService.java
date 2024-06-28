@@ -1,6 +1,8 @@
 package com.umc.domain.board.service;
 
+import com.umc.common.exception.handler.BoardHandler;
 import com.umc.common.response.ApiResponse;
+import com.umc.common.response.status.ErrorCode;
 import com.umc.common.response.status.SuccessCode;
 import com.umc.domain.board.dto.BoardCreateRequestDTO;
 import com.umc.domain.board.dto.BoardListResponseDTO;
@@ -19,7 +21,7 @@ public class BoardService {
 
     public ApiResponse<BoardResponseDTO> createBoard(BoardCreateRequestDTO boardCreateRequestDTO) {
         if (!boardRepository.findByTitle(boardCreateRequestDTO.getTitle()).isEmpty()) {
-            //게시판 이름 중복
+            throw new BoardHandler(ErrorCode.BOARD_ALREADY_EXIST);
         }
 
         Board board = Board.builder()
@@ -32,7 +34,7 @@ public class BoardService {
     }
 
     public ApiResponse<String> deleteBoard(Long id) {
-        Board board = boardRepository.findById(id).orElseThrow(); //예외처리 필요
+        Board board = boardRepository.findById(id).orElseThrow(() -> new BoardHandler(ErrorCode.BOARD_NOT_EXIST));
         boardRepository.delete(board);
 
         return ApiResponse.of(SuccessCode._OK, "게시판이 성공적으로 삭제되었습니다.");
@@ -55,7 +57,7 @@ public class BoardService {
     }
 
     public ApiResponse<BoardResponseDTO> getBoardById(Long id) {
-        Board board = boardRepository.findById(id).orElseThrow(); // 예외처리 필요
+        Board board = boardRepository.findById(id).orElseThrow(() -> new BoardHandler(ErrorCode.BOARD_NOT_EXIST));
         BoardResponseDTO boardResponseDTO = new BoardResponseDTO(board);
 
         return ApiResponse.onSuccess(boardResponseDTO);
