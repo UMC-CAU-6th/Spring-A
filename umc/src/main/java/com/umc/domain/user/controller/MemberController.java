@@ -1,6 +1,7 @@
 package com.umc.domain.user.controller;
 
 import com.umc.common.jwt.JwtTokenProvider;
+import com.umc.common.jwt.SecurityUtil;
 import com.umc.domain.user.dto.MemberLoginRequestDTO;
 import com.umc.domain.user.dto.UserResponseDTO;
 import com.umc.domain.user.dto.UserSignUpRequestDto;
@@ -33,6 +34,22 @@ public class MemberController {
     @PostMapping("/login")
     public ApiResponse<UserResponseDTO> login(@Valid @RequestBody MemberLoginRequestDTO memberLoginRequestDTO) {
         return usersService.login(memberLoginRequestDTO);
+    }
+
+    @CrossOrigin
+    @Operation(summary = "회원가입 창 보여주기")
+    @GetMapping("/sign-up")
+    public String signup() {
+        /* 로그인 창 HTML 페이지 전송하기 */
+        return null;
+    }
+
+    @CrossOrigin
+    @Operation(summary = "로그인 창 보여주기")
+    @GetMapping("/login")
+    public String login() {
+        /* 로그인 창 HTML 페이지 전송하기 */
+        return null;
     }
 
 }
