@@ -5,6 +5,7 @@ import com.umc.common.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 
 import com.umc.domain.post.entity.Post;
+import jakarta.transaction.Transactional;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Transactional
 public class Board extends BaseTimeEntity {
 
     @Id
@@ -26,7 +28,9 @@ public class Board extends BaseTimeEntity {
 
     private String description;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "VARCHAR(10) DEFAULT 'USE'")
+    private BoardStatus status;
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private List<Post> posts = new ArrayList<>();
