@@ -2,7 +2,7 @@ package com.umc.domain.board.entity;
 
 import com.umc.common.entity.BaseTimeEntity;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 import com.umc.domain.post.entity.Post;
 import lombok.*;

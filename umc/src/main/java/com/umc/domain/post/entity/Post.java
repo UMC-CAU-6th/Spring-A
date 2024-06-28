@@ -6,7 +6,7 @@ import com.umc.domain.board.entity.Board;
 import com.umc.domain.comment.entity.Comment;
 import com.umc.domain.user.entity.Member;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 import lombok.*;
 
