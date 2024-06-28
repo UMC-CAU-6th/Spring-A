@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 public class BoardListResponseDTO {
-    private Integer numberOfBoard;
+    private Integer numberOfBoards;
     private List<ReducedBoard> boardList;
 
     @AllArgsConstructor
@@ -24,6 +24,6 @@ public class BoardListResponseDTO {
         this.boardList = boardList.stream()
                 .map(board -> new ReducedBoard(board.getId(), board.getTitle()))
                 .collect(Collectors.toList());
-        this.numberOfBoard = boardList.size();
+        this.numberOfBoards = boardList.size();
     }
 }

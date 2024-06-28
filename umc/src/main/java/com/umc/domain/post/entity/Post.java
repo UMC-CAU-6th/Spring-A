@@ -34,6 +34,7 @@ public class Post extends BaseTimeEntity {
 
     private String content;
 
+    @Column(columnDefinition = "BIGINT DEFAULT 0")
     private Integer likes;
 
     @ManyToOne

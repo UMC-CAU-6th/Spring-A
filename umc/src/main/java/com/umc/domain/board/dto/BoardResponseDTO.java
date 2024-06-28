@@ -2,6 +2,7 @@ package com.umc.domain.board.dto;
 
 import com.umc.domain.board.entity.Board;
 import com.umc.domain.board.entity.BoardStatus;
+import com.umc.domain.post.dto.PostListResponseDTO;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -15,12 +16,13 @@ public class BoardResponseDTO {
     private String title;
     private String description;
     private BoardStatus status;
-    //private List<PostResponseDTO> posts;
+    private PostListResponseDTO postList;
 
     public BoardResponseDTO(Board board) {
         id = board.getId();
         title = board.getTitle();
         description = board.getDescription();
         status = board.getStatus();
+        postList = new PostListResponseDTO(board.getPosts());
     }
 }
