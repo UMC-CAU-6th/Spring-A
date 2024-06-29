@@ -1,5 +1,6 @@
 package com.umc.domain.post.dto;
 
+import com.umc.domain.comment.dto.CommentListPesponseDTO;
 import com.umc.domain.post.entity.Post;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +19,7 @@ public class PostResponseDTO {
     private Long posterId;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
-    //private comments;
+    private CommentListPesponseDTO commentList;
 
     public PostResponseDTO(Post post) {
         id = post.getId();
@@ -30,5 +31,6 @@ public class PostResponseDTO {
         posterId = post.getPoster().getId();
         createdAt = post.getCreatedAt();
         modifiedAt = post.getModifiedAt();
+        commentList = new CommentListPesponseDTO(post.getComments());
     }
 }
