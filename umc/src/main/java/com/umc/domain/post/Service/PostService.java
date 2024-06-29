@@ -19,6 +19,8 @@ import com.umc.domain.user.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 @Service
 @RequiredArgsConstructor
 public class PostService {
@@ -36,6 +38,9 @@ public class PostService {
                 .content(postCreateRequestDTO.getContent())
                 .board(board)
                 .poster(member)
+                .comments(new ArrayList<>())
+                .likes(0)
+                .status("AVAILABLE")
                 .build();
 
         PostResponseDTO postResponseDTO = new PostResponseDTO(postRepository.save(post));

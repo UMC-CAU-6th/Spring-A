@@ -7,11 +7,14 @@ import com.umc.common.response.status.SuccessCode;
 import com.umc.domain.board.dto.BoardCreateRequestDTO;
 import com.umc.domain.board.dto.BoardListResponseDTO;
 import com.umc.domain.board.dto.BoardResponseDTO;
+import com.umc.domain.board.dto.BoardUpdateRequestDTO;
 import com.umc.domain.board.entity.Board;
 import com.umc.domain.board.entity.BoardStatus;
 import com.umc.domain.board.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +31,7 @@ public class BoardService {
                 .title(boardCreateRequestDTO.getTitle())
                 .description(boardCreateRequestDTO.getDescription())
                 .status(BoardStatus.USE)
+                .posts(new ArrayList<>())
                 .build();
         BoardResponseDTO boardResponseDTO = new BoardResponseDTO(boardRepository.save(board));
 
@@ -61,6 +65,29 @@ public class BoardService {
         Board board = boardRepository.findById(id).orElseThrow(() -> new BoardHandler(ErrorCode.BOARD_NOT_EXIST));
         BoardResponseDTO boardResponseDTO = new BoardResponseDTO(board);
 
+        return ApiResponse.onSuccess(boardResponseDTO);
+    }
+
+    public ApiResponse<BoardResponseDTO> updateBoard(Long id, BoardUpdateRequestDTO boardUpdateRequestDTO) {
+        Board board = boardRepository.findById(id).orElseThrow(() -> new BoardHandler(ErrorCode.BOARD_NOT_EXIST));
+
+        // 이미 존재하는 이름으로 바꾸는지 확인
+        if (!boardRepository.findByTitle(boardUpdateRequestDTO.getTitle()).isEmpty()) {
+            if (boardRepository.findByTitle(boardUpdateRequestDTO.getTitle()) != boardRepository.findById(id))
+                throw new BoardHandler(ErrorCode.BOARD_ALREADY_EXIST);
+        }
+
+        if (boardUpdateRequestDTO.getTitle() != "") {
+            board.setTitle(boardUpdateRequestDTO.getTitle());
+        }
+        if (boardUpdateRequestDTO.getDescription() != "") {
+            board.setDescription(boardUpdateRequestDTO.getDescription());
+        }
+        if (boardUpdateRequestDTO.getStatus() != "") {
+            board.setStatus(BoardStatus.fromString(boardUpdateRequestDTO.getStatus()));
+        }
+
+        BoardResponseDTO boardResponseDTO = new BoardResponseDTO(boardRepository.save(board));
         return ApiResponse.onSuccess(boardResponseDTO);
     }
 }

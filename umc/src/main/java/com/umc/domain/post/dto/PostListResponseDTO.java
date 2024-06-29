@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 @Setter
 public class PostListResponseDTO {
     private Integer numberOfPosts;
-    private List<ReducedPost> boardList;
+    private List<ReducedPost> postList;
 
     @Getter
     @Setter
@@ -27,10 +27,10 @@ public class PostListResponseDTO {
     }
 
     public PostListResponseDTO(List<Post> postList) {
-        this.boardList = postList.stream()
+        this.postList = postList.stream()
                 .map(post -> new ReducedPost(post.getId(), post.getTitle(), post.getPoster().getId(), post.getPoster().getNickname(), post.getCreatedAt()))
                 .collect(Collectors.toList());
-        this.numberOfPosts = boardList.size();
+        this.numberOfPosts = postList.size();
     }
 
 }

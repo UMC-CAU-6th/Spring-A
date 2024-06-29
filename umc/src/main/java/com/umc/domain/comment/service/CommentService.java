@@ -34,6 +34,8 @@ public class CommentService {
         Post post = postRepository.findById(commentCreateRequestDTO.getPostId()).orElseThrow(() -> new PostHandler(ErrorCode.POST_NOT_EXIST));
 
         Comment comment = Comment.builder()
+                .likes(0)
+                .status("AVAILABLE")
                 .post(post)
                 .commenter(commenter)
                 .content(commentCreateRequestDTO.getContent())

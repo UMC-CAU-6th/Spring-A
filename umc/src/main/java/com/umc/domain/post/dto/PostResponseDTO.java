@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 @Getter
 @Setter
@@ -31,6 +32,6 @@ public class PostResponseDTO {
         posterId = post.getPoster().getId();
         createdAt = post.getCreatedAt();
         modifiedAt = post.getModifiedAt();
-        commentList = new CommentListPesponseDTO(post.getComments());
+        commentList = new CommentListPesponseDTO(post.getComments() != null ? post.getComments() : new ArrayList<>());
     }
 }

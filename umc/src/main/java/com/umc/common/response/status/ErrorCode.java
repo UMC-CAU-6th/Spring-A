@@ -27,6 +27,7 @@ public enum ErrorCode implements BaseErrorCode {
     // Board, 게시판 관련 에러
     BOARD_ALREADY_EXIST(HttpStatus.BAD_REQUEST, "BOARD4001", "이미 존재하는 게시판입니다."),
     BOARD_NOT_EXIST(HttpStatus.BAD_REQUEST, "BOARD4002", "존재하지 않는 게시판입니다."),
+    BOARD_NOT_AVAILABLE_STATUS(HttpStatus.BAD_REQUEST, "BOARD4003", "존재하지 않는 게시판 상태입니다."),
 
     // Post, 게시물 관련 에러
     POST_NOT_EXIST(HttpStatus.BAD_REQUEST, "POST4001", "존재하지 않는 게시물입니다."),

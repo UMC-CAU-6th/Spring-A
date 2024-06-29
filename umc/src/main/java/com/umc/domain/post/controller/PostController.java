@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api")
 public class PostController {
 
-    private PostService postService;
+    private final PostService postService;
 
     @PostMapping("/posts") // 생성
     public ApiResponse<PostResponseDTO> createPost(@Valid @RequestBody PostCreateRequestDTO postCreateRequestDTO) {

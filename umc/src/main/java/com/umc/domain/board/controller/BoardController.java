@@ -4,6 +4,7 @@ import com.umc.common.response.ApiResponse;
 import com.umc.domain.board.dto.BoardCreateRequestDTO;
 import com.umc.domain.board.dto.BoardListResponseDTO;
 import com.umc.domain.board.dto.BoardResponseDTO;
+import com.umc.domain.board.dto.BoardUpdateRequestDTO;
 import com.umc.domain.board.service.BoardService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -37,5 +38,12 @@ public class BoardController {
     @GetMapping("/{boardId}") // 하나 조회
     public ApiResponse<BoardResponseDTO> getBoard(@Valid @PathVariable Long boardId) {
         return boardService.getBoardById(boardId);
+    }
+
+    @PutMapping("/{boardId}")
+    public ApiResponse<BoardResponseDTO> updateBoard(
+            @Valid @PathVariable Long boardId,
+            @Valid @RequestBody BoardUpdateRequestDTO boardUpdateRequestDTO) {
+        return boardService.updateBoard(boardId, boardUpdateRequestDTO);
     }
 }
