@@ -15,6 +15,8 @@ public class PostListResponseDTO {
     private Integer numberOfPosts;
     private List<ReducedPost> boardList;
 
+    @Getter
+    @Setter
     @AllArgsConstructor
     private class ReducedPost {
         private Long id;

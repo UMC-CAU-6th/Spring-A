@@ -7,7 +7,6 @@ import com.umc.domain.board.dto.BoardResponseDTO;
 import com.umc.domain.board.service.BoardService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/boards")
 public class BoardController {
 
-    private BoardService boardService;
+    private final BoardService boardService;
 
     @PostMapping //생성
     public ApiResponse<BoardResponseDTO> createBoard(@Valid @RequestBody BoardCreateRequestDTO boardCreateRequestDTO) {

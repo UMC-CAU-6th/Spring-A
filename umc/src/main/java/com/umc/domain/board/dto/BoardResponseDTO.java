@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+
 @Getter
 @Setter
 @RequiredArgsConstructor
@@ -23,6 +25,6 @@ public class BoardResponseDTO {
         title = board.getTitle();
         description = board.getDescription();
         status = board.getStatus();
-        postList = new PostListResponseDTO(board.getPosts());
+        postList = new PostListResponseDTO(board.getPosts() != null ? board.getPosts() : new ArrayList<>());
     }
 }

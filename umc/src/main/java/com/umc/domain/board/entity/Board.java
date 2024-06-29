@@ -31,8 +31,8 @@ public class Board extends BaseTimeEntity {
     private String description;
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "VARCHAR(10) DEFAULT 'USE'")
-    private BoardStatus status;
+    @Column(columnDefinition = "VARCHAR(15) DEFAULT 'USE'")
+    private BoardStatus status = BoardStatus.USE;
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private List<Post> posts = new ArrayList<>();
