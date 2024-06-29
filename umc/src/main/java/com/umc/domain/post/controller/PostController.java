@@ -46,7 +46,7 @@ public class PostController {
         return postService.searchPostsInBoard(boardId, title, posterId, status);
     }
 
-    @PostMapping("/posts/{postId}")
+    @PutMapping("/posts/{postId}")
     public ApiResponse<PostResponseDTO> updatePost(
             @Valid @PathVariable Long postId,
             @Valid @RequestBody PostUpdateRequestDTO postUpdateRequestDTO
