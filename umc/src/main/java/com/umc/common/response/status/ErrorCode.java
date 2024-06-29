@@ -30,6 +30,9 @@ public enum ErrorCode implements BaseErrorCode {
 
     // Post, 게시물 관련 에러
     POST_NOT_EXIST(HttpStatus.BAD_REQUEST, "POST4001", "존재하지 않는 게시물입니다."),
+
+    // Comment, 댓글 관련 에러
+    COMMENT_NOT_EXIST(HttpStatus.BAD_REQUEST, "COMMENT4001", "존재하지 않는 댓글입니다."),
     ;
 
 

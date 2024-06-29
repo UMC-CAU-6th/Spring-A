@@ -1,5 +1,6 @@
 package com.umc.domain.comment.service;
 
+import com.umc.common.exception.handler.CommentHandler;
 import com.umc.common.exception.handler.PostHandler;
 import com.umc.common.exception.handler.UserHandler;
 import com.umc.common.response.ApiResponse;
@@ -43,14 +44,14 @@ public class CommentService {
     }
 
     public ApiResponse<String> deleteComment(Long id) {
-        Comment comment = commentRepository.findById(id).orElseThrow(); // 예외 처리 필요
+        Comment comment = commentRepository.findById(id).orElseThrow(() -> new CommentHandler(ErrorCode.COMMENT_NOT_EXIST));
         commentRepository.delete(comment);
 
         return ApiResponse.of(SuccessCode._OK, "댓글이 정상적으로 삭제되었습니다.");
     }
 
     public ApiResponse<CommentResponseDTO> updateComment(Long id, CommentUpdateRequestDTO commentUpdateRequestDTO) {
-        Comment comment = commentRepository.findById(id).orElseThrow(); // 예외 처리 필요
+        Comment comment = commentRepository.findById(id).orElseThrow(() -> new CommentHandler(ErrorCode.COMMENT_NOT_EXIST));
         if (commentUpdateRequestDTO.getStatus() != "") {
             comment.setStatus(commentUpdateRequestDTO.getStatus());
         }
@@ -63,13 +64,13 @@ public class CommentService {
     }
 
     public ApiResponse<CommentResponseDTO> getComment(Long id) {
-        Comment comment = commentRepository.findById(id).orElseThrow(); // 예외 처리 필요
+        Comment comment = commentRepository.findById(id).orElseThrow(() -> new CommentHandler(ErrorCode.COMMENT_NOT_EXIST));
         CommentResponseDTO commentResponseDTO = new CommentResponseDTO(comment);
         return ApiResponse.onSuccess(commentResponseDTO);
     }
 
     public ApiResponse<CommentResponseDTO> likeComment(Long id) {
-        Comment comment = commentRepository.findById(id).orElseThrow(); // 예외 처리 필요
+        Comment comment = commentRepository.findById(id).orElseThrow(() -> new CommentHandler(ErrorCode.COMMENT_NOT_EXIST));
         comment.setLikes(comment.getLikes() + 1);
 
         CommentResponseDTO commentResponseDTO = new CommentResponseDTO(comment);
