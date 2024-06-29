@@ -1,12 +1,12 @@
 package com.umc.domain.board.entity;
 
 import com.umc.common.entity.BaseTimeEntity;
-
-import jakarta.persistence.*;
-
 import com.umc.domain.post.entity.Post;
+import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +15,8 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
+@DynamicUpdate
+@DynamicInsert
 @NoArgsConstructor
 @AllArgsConstructor
 @Transactional

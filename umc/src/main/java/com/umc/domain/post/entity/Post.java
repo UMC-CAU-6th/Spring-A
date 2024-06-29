@@ -5,10 +5,11 @@ import com.umc.common.entity.BaseTimeEntity;
 import com.umc.domain.board.entity.Board;
 import com.umc.domain.comment.entity.Comment;
 import com.umc.domain.user.entity.Member;
-
 import jakarta.persistence.*;
-
+import jakarta.transaction.Transactional;
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +19,11 @@ import java.util.List;
 @Setter
 @Builder
 @Entity
+@DynamicUpdate
+@DynamicInsert
 @NoArgsConstructor
 @AllArgsConstructor
+@Transactional
 public class Post extends BaseTimeEntity {
 
     @Id
