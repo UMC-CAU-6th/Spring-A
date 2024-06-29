@@ -1,6 +1,7 @@
 package com.umc.domain.post.Service;
 
 import com.umc.common.exception.handler.BoardHandler;
+import com.umc.common.exception.handler.PostHandler;
 import com.umc.common.exception.handler.UserHandler;
 import com.umc.common.response.ApiResponse;
 import com.umc.common.response.status.ErrorCode;
@@ -43,7 +44,7 @@ public class PostService {
     }
 
     public ApiResponse<String> deletePost(Long id) {
-        Post post = postRepository.findById(id).orElseThrow(); // 오류 처리 필요
+        Post post = postRepository.findById(id).orElseThrow(() -> new PostHandler(ErrorCode.POST_NOT_EXIST));
         postRepository.delete(post);
 
         return ApiResponse.of(SuccessCode._OK, "게시물이 성공적으로 삭제되었습니다.");
@@ -115,7 +116,7 @@ public class PostService {
     }
 
     public ApiResponse<PostResponseDTO> updatePost(Long postId, PostUpdateRequestDTO postUpdateRequestDTO) {
-        Post post = postRepository.findById(postId).orElseThrow(); // 예외 처리 필요
+        Post post = postRepository.findById(postId).orElseThrow(() -> new PostHandler(ErrorCode.POST_NOT_EXIST));
         if (postUpdateRequestDTO.getTitle() != "") {
             post.setTitle(postUpdateRequestDTO.getTitle());
         }
