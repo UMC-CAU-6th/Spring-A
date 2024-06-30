@@ -1,7 +1,6 @@
 package com.umc.domain.board.service;
 
 import com.umc.common.response.ApiResponse;
-import com.umc.common.response.status.SuccessCode;
 import com.umc.domain.board.dto.BoardRequestDto;
 import com.umc.domain.board.dto.BoardResponseDto;
 import com.umc.domain.board.entity.Board;

@@ -1,7 +1,6 @@
 package com.umc.domain.comment.service;
 
 import com.umc.common.response.ApiResponse;
-import com.umc.common.response.status.SuccessCode;
 import com.umc.domain.comment.dto.CommentRequestDto;
 import com.umc.domain.comment.dto.CommentResponseDto;
 import com.umc.domain.comment.entity.Comment;
