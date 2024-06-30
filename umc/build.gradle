@@ -22,7 +22,7 @@ repositories {
 }
 
 dependencies {
-
+	//implementation group: 'com.mysql', name: 'mysql-connector-j', version: '8.0.33'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -33,14 +33,16 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	runtimeOnly 'com.mysql:mysql-connector-j'
-	implementation group: 'org.hibernate', name: 'hibernate-spatial', version: '5.6.15.Final'
+	implementation 'mysql:mysql-connector-java:8.0.33'
 	// jwt
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
 	implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
 	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 	implementation 'org.springdoc:springdoc-openapi-ui:1.6.15'
-	implementation 'io.springfox:springfox-swagger2:2.9.2'
-	implementation 'io.springfox:springfox-swagger-ui:2.9.2'
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
+	implementation 'io.springfox:springfox-swagger2:3.0.0'
+	implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
+	//implementation 'io.springfox:springfox-swagger-ui:2.9.2'
 
 }
 
