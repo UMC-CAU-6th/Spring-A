@@ -1,5 +1,7 @@
 package com.umc.domain.board.service;
 
+import com.umc.common.response.ApiResponse;
+import com.umc.common.response.status.SuccessCode;
 import com.umc.domain.board.dto.BoardRequestDto;
 import com.umc.domain.board.dto.BoardResponseDto;
 import com.umc.domain.board.entity.Board;
@@ -30,43 +32,51 @@ public class BoardService {
     }
 
     @Transactional(readOnly = true)
-    public List<BoardResponseDto> getAllBoards() {
-        return boardRepository.findAll().stream()
+    public ApiResponse<List<BoardResponseDto>> getAllBoards() {
+        List<BoardResponseDto> boardList = boardRepository.findAll().stream()
                 .map(board -> BoardResponseDto.builder()
                         .id(board.getId())
                         .name(board.getName())
                         .description(board.getDescription())
                         .build())
                 .collect(Collectors.toList());
+
+        return ApiResponse.onSuccess(boardList);
     }
 
     @Transactional(readOnly = true)
-    public BoardResponseDto getBoardById(Long id) {
+    public ApiResponse<BoardResponseDto> getBoardById(Long id) {
         Board board = boardRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Board not found"));
 
-        return BoardResponseDto.builder()
+        BoardResponseDto response = BoardResponseDto.builder()
                 .id(board.getId())
                 .name(board.getName())
                 .description(board.getDescription())
                 .build();
+
+        return ApiResponse.onSuccess(response);
     }
 
     @Transactional
-    public void updateBoard(Long id, BoardRequestDto request) {
+    public ApiResponse<Void> updateBoard(Long id, BoardRequestDto request) {
         Board board = boardRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Board not found"));
 
         board.setName(request.getName());
         board.setDescription(request.getDescription());
         boardRepository.save(board);
+
+        return ApiResponse.onSuccess(null);
     }
 
     @Transactional
-    public void deleteBoard(Long id) {
+    public ApiResponse<Void> deleteBoard(Long id) {
         boardRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Board not found"));
 
         boardRepository.deleteById(id);
+
+        return ApiResponse.onSuccess(null);
     }
 }

@@ -1,5 +1,7 @@
 package com.umc.domain.comment.service;
 
+import com.umc.common.response.ApiResponse;
+import com.umc.common.response.status.SuccessCode;
 import com.umc.domain.comment.dto.CommentRequestDto;
 import com.umc.domain.comment.dto.CommentResponseDto;
 import com.umc.domain.comment.entity.Comment;
@@ -29,7 +31,7 @@ public class CommentService {
     }
 
     @Transactional
-    public void createComment(CommentRequestDto request) {
+    public ApiResponse<Void> createComment(CommentRequestDto request) {
         Member member = memberRepository.findById(request.getMemberId())
                 .orElseThrow(() -> new IllegalArgumentException("Member not found"));
         Post post = postRepository.findById(request.getPostId())
@@ -44,11 +46,12 @@ public class CommentService {
                 .build();
 
         commentRepository.save(comment);
+        return ApiResponse.onSuccess(null);
     }
 
     @Transactional(readOnly = true)
-    public List<CommentResponseDto> getAllComments() {
-        return commentRepository.findAll().stream()
+    public ApiResponse<List<CommentResponseDto>> getAllComments() {
+        List<CommentResponseDto> commentList = commentRepository.findAll().stream()
                 .map(comment -> CommentResponseDto.builder()
                         .id(comment.getId())
                         .content(comment.getContent())
@@ -56,23 +59,26 @@ public class CommentService {
                         .memberId(comment.getMember().getId())
                         .build())
                 .collect(Collectors.toList());
+        return ApiResponse.onSuccess(commentList);
     }
 
     @Transactional(readOnly = true)
-    public CommentResponseDto getCommentById(Long id) {
+    public ApiResponse<CommentResponseDto> getCommentById(Long id) {
         Comment comment = commentRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Comment not found"));
 
-        return CommentResponseDto.builder()
+        CommentResponseDto response = CommentResponseDto.builder()
                 .id(comment.getId())
                 .content(comment.getContent())
                 .postId(comment.getPost().getId())
                 .memberId(comment.getMember().getId())
                 .build();
+
+        return ApiResponse.onSuccess(response);
     }
 
     @Transactional
-    public void updateComment(Long id, CommentRequestDto request) {
+    public ApiResponse<Void> updateComment(Long id, CommentRequestDto request) {
         Comment comment = commentRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Comment not found"));
 
@@ -80,13 +86,15 @@ public class CommentService {
         comment.setUpdatedAt(LocalDateTime.now());
 
         commentRepository.save(comment);
+        return ApiResponse.onSuccess(null);
     }
 
     @Transactional
-    public void deleteComment(Long id) {
+    public ApiResponse<Void> deleteComment(Long id) {
         commentRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Comment not found"));
 
         commentRepository.deleteById(id);
+        return ApiResponse.onSuccess(null);
     }
 }

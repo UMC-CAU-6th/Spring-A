@@ -1,5 +1,6 @@
 package com.umc.domain.board.controller;
 
+import com.umc.common.response.ApiResponse;
 import com.umc.domain.board.dto.BoardRequestDto;
 import com.umc.domain.board.dto.BoardResponseDto;
 import com.umc.domain.board.service.BoardService;
@@ -19,29 +20,32 @@ public class BoardController {
     }
 
     @PostMapping
-    public void createBoard(@RequestBody BoardRequestDto request) {
+    public ResponseEntity<ApiResponse<Void>> createBoard(@RequestBody BoardRequestDto request) {
         boardService.createBoard(request);
+        return ResponseEntity.ok(ApiResponse.onSuccess(null));
     }
 
     @GetMapping
-    public ResponseEntity<List<BoardResponseDto>> getAllBoards() {
-        List<BoardResponseDto> boards = boardService.getAllBoards();
-        return ResponseEntity.ok(boards);
+    public ResponseEntity<ApiResponse<List<BoardResponseDto>>> getAllBoards() {
+        ApiResponse<List<BoardResponseDto>> response = boardService.getAllBoards();
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BoardResponseDto> getBoardById(@PathVariable Long id) {
-        BoardResponseDto board = boardService.getBoardById(id);
-        return ResponseEntity.ok(board);
+    public ResponseEntity<ApiResponse<BoardResponseDto>> getBoardById(@PathVariable Long id) {
+        ApiResponse<BoardResponseDto> response = boardService.getBoardById(id);
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}")
-    public void updateBoard(@PathVariable Long id, @RequestBody BoardRequestDto request) {
-        boardService.updateBoard(id, request);
+    public ResponseEntity<ApiResponse<Void>> updateBoard(@PathVariable Long id, @RequestBody BoardRequestDto request) {
+        ApiResponse<Void> response = boardService.updateBoard(id, request);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteBoard(@PathVariable Long id) {
-        boardService.deleteBoard(id);
+    public ResponseEntity<ApiResponse<Void>> deleteBoard(@PathVariable Long id) {
+        ApiResponse<Void> response = boardService.deleteBoard(id);
+        return ResponseEntity.ok(response);
     }
 }

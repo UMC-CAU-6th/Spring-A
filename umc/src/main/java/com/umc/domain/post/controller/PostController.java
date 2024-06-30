@@ -1,5 +1,6 @@
 package com.umc.domain.post.controller;
 
+import com.umc.common.response.ApiResponse;
 import com.umc.domain.post.dto.PostRequestDto;
 import com.umc.domain.post.dto.PostResponseDto;
 import com.umc.domain.post.service.PostService;
@@ -19,29 +20,32 @@ public class PostController {
     }
 
     @PostMapping
-    public void createPost(@RequestBody PostRequestDto request) {
-        postService.createPost(request);
+    public ResponseEntity<ApiResponse<Void>> createPost(@RequestBody PostRequestDto request) {
+        ApiResponse<Void> response = postService.createPost(request);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping
-    public ResponseEntity<List<PostResponseDto>> getAllPosts() {
-        List<PostResponseDto> posts = postService.getAllPosts();
-        return ResponseEntity.ok(posts);
+    public ResponseEntity<ApiResponse<List<PostResponseDto>>> getAllPosts() {
+        ApiResponse<List<PostResponseDto>> response = postService.getAllPosts();
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{post_id}")
-    public ResponseEntity<PostResponseDto> getPostById(@PathVariable("post_id") Long postId) {
-        PostResponseDto post = postService.getPostById(postId);
-        return ResponseEntity.ok(post);
+    public ResponseEntity<ApiResponse<PostResponseDto>> getPostById(@PathVariable("post_id") Long postId) {
+        ApiResponse<PostResponseDto> response = postService.getPostById(postId);
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{post_id}")
-    public void updatePost(@PathVariable("post_id") Long postId, @RequestBody PostRequestDto request) {
-        postService.updatePost(postId, request);
+    public ResponseEntity<ApiResponse<Void>> updatePost(@PathVariable("post_id") Long postId, @RequestBody PostRequestDto request) {
+        ApiResponse<Void> response = postService.updatePost(postId, request);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{post_id}")
-    public void deletePost(@PathVariable("post_id") Long postId) {
-        postService.deletePost(postId);
+    public ResponseEntity<ApiResponse<Void>> deletePost(@PathVariable("post_id") Long postId) {
+        ApiResponse<Void> response = postService.deletePost(postId);
+        return ResponseEntity.ok(response);
     }
 }

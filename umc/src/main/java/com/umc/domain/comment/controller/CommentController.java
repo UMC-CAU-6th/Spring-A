@@ -1,5 +1,6 @@
 package com.umc.domain.comment.controller;
 
+import com.umc.common.response.ApiResponse;
 import com.umc.domain.comment.dto.CommentRequestDto;
 import com.umc.domain.comment.dto.CommentResponseDto;
 import com.umc.domain.comment.service.CommentService;
@@ -19,32 +20,32 @@ public class CommentController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createComment(@RequestBody CommentRequestDto request) {
-        commentService.createComment(request);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<ApiResponse<Void>> createComment(@RequestBody CommentRequestDto request) {
+        ApiResponse<Void> response = commentService.createComment(request);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping
-    public ResponseEntity<List<CommentResponseDto>> getAllComments() {
-        List<CommentResponseDto> comments = commentService.getAllComments();
-        return ResponseEntity.ok(comments);
+    public ResponseEntity<ApiResponse<List<CommentResponseDto>>> getAllComments() {
+        ApiResponse<List<CommentResponseDto>> response = commentService.getAllComments();
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CommentResponseDto> getCommentById(@PathVariable Long id) {
-        CommentResponseDto comment = commentService.getCommentById(id);
-        return ResponseEntity.ok(comment);
+    public ResponseEntity<ApiResponse<CommentResponseDto>> getCommentById(@PathVariable Long id) {
+        ApiResponse<CommentResponseDto> response = commentService.getCommentById(id);
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateComment(@PathVariable Long id, @RequestBody CommentRequestDto request) {
-        commentService.updateComment(id, request);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<ApiResponse<Void>> updateComment(@PathVariable Long id, @RequestBody CommentRequestDto request) {
+        ApiResponse<Void> response = commentService.updateComment(id, request);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteComment(@PathVariable Long id) {
-        commentService.deleteComment(id);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<ApiResponse<Void>> deleteComment(@PathVariable Long id) {
+        ApiResponse<Void> response = commentService.deleteComment(id);
+        return ResponseEntity.ok(response);
     }
 }

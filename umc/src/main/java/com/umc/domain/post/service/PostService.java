@@ -1,5 +1,6 @@
 package com.umc.domain.post.service;
 
+import com.umc.common.response.ApiResponse;
 import com.umc.domain.board.entity.Board;
 import com.umc.domain.board.repository.BoardRepository;
 import com.umc.domain.user.entity.Member;
@@ -29,7 +30,7 @@ public class PostService {
     }
 
     @Transactional
-    public void createPost(PostRequestDto request) {
+    public ApiResponse<Void> createPost(PostRequestDto request) {
         Member member = memberRepository.findById(request.getMemberId())
                 .orElseThrow(() -> new IllegalArgumentException("Member not found"));
         Board board = boardRepository.findById(request.getBoardId())
@@ -45,11 +46,12 @@ public class PostService {
                 .build();
 
         postRepository.save(post);
+        return ApiResponse.onSuccess(null);
     }
 
     @Transactional(readOnly = true)
-    public List<PostResponseDto> getAllPosts() {
-        return postRepository.findAll().stream()
+    public ApiResponse<List<PostResponseDto>> getAllPosts() {
+        List<PostResponseDto> postList = postRepository.findAll().stream()
                 .map(post -> PostResponseDto.builder()
                         .id(post.getId())
                         .title(post.getTitle())
@@ -59,14 +61,15 @@ public class PostService {
                         .updatedAt(post.getUpdatedAt())
                         .build())
                 .collect(Collectors.toList());
+        return ApiResponse.onSuccess(postList);
     }
 
     @Transactional(readOnly = true)
-    public PostResponseDto getPostById(Long id) {
+    public ApiResponse<PostResponseDto> getPostById(Long id) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Post not found"));
 
-        return PostResponseDto.builder()
+        PostResponseDto response = PostResponseDto.builder()
                 .id(post.getId())
                 .title(post.getTitle())
                 .content(post.getContent())
@@ -74,10 +77,12 @@ public class PostService {
                 .createdAt(post.getCreatedAt())
                 .updatedAt(post.getUpdatedAt())
                 .build();
+
+        return ApiResponse.onSuccess(response);
     }
 
     @Transactional
-    public void updatePost(Long id, PostRequestDto request) {
+    public ApiResponse<Void> updatePost(Long id, PostRequestDto request) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Post not found"));
 
@@ -86,13 +91,15 @@ public class PostService {
         post.setUpdatedAt(LocalDateTime.now());
 
         postRepository.save(post);
+        return ApiResponse.onSuccess(null);
     }
 
     @Transactional
-    public void deletePost(Long id) {
+    public ApiResponse<Void> deletePost(Long id) {
         postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Post not found"));
 
         postRepository.deleteById(id);
+        return ApiResponse.onSuccess(null);
     }
 }
