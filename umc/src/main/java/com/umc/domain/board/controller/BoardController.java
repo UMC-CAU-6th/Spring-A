@@ -26,8 +26,10 @@ public class BoardController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<BoardResponseDto>>> getAllBoards() {
-        ApiResponse<List<BoardResponseDto>> response = boardService.getAllBoards();
+    public ResponseEntity<ApiResponse<List<BoardResponseDto>>> getAllBoards(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        ApiResponse<List<BoardResponseDto>> response = boardService.getAllBoards(page, size);
         return ResponseEntity.ok(response);
     }
 

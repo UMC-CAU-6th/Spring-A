@@ -6,6 +6,9 @@ import com.umc.domain.board.dto.BoardResponseDto;
 import com.umc.domain.board.entity.Board;
 import com.umc.domain.board.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,16 +26,19 @@ public class BoardService {
     }
 
     @Transactional
-    public void createBoard(BoardRequestDto request) {
+    public ApiResponse<Void> createBoard(BoardRequestDto request) {
         Board board = new Board();
         board.setName(request.getName());
         board.setDescription(request.getDescription());
         boardRepository.save(board);
+        return ApiResponse.onSuccess(null);
     }
 
     @Transactional(readOnly = true)
-    public ApiResponse<List<BoardResponseDto>> getAllBoards() {
-        List<BoardResponseDto> boardList = boardRepository.findAll().stream()
+    public ApiResponse<List<BoardResponseDto>> getAllBoards(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Board> boardPage = boardRepository.findAll(pageable);
+        List<BoardResponseDto> boardList = boardPage.stream()
                 .map(board -> BoardResponseDto.builder()
                         .id(board.getId())
                         .name(board.getName())
