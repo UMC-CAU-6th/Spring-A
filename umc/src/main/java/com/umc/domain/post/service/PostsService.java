@@ -1,10 +1,15 @@
 package com.umc.domain.post.service;
 
+import com.umc.domain.board.entity.Board;
+import com.umc.domain.board.repository.BoardRepository;
 import com.umc.domain.post.dto.PostRequestDTO;
 import com.umc.domain.post.dto.PostResponseDTO;
+import com.umc.domain.post.dto.PostResponseListDTO;
 import com.umc.domain.post.entity.Post;
 import com.umc.domain.post.repository.PostsRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -17,6 +22,7 @@ import java.util.stream.Collectors;
 public class PostsService {
 
     private final PostsRepository postsRepository;
+    private final BoardRepository boardRepository;
 
     public PostResponseDTO addPost(PostRequestDTO postRequestDTO) {
         Post post = new Post();
@@ -46,6 +52,11 @@ public class PostsService {
         return posts.stream()
                 .map(this::convertToResponseDto)
                 .collect(Collectors.toList());
+    }
+
+    public Optional<Page<Post>> getPostsByBoardId(Long boardId, Pageable pageable){
+        Optional<Board> board = boardRepository.findById(boardId);
+        return Optional.of(postsRepository.findByBoard_Id(boardId, pageable));
     }
 
     public PostResponseDTO getPost(Long postId) {
