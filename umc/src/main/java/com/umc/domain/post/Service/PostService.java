@@ -17,6 +17,7 @@ import com.umc.domain.post.repository.PostRepository;
 import com.umc.domain.user.entity.Member;
 import com.umc.domain.user.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -61,14 +62,14 @@ public class PostService {
         return ApiResponse.onSuccess(postResponseDTO);
     }
 
-    public ApiResponse<PostListResponseDTO> searchPosts() {
-        PostListResponseDTO postListResponseDTO = new PostListResponseDTO(postRepository.findAll());
+    public ApiResponse<PostListResponseDTO> searchPosts(Integer page) {
+        PostListResponseDTO postListResponseDTO = new PostListResponseDTO(postRepository.findAllOrderByCreatedAtDesc(PageRequest.of(page, 10)).getContent());
         return ApiResponse.onSuccess(postListResponseDTO);
     }
 
-    public ApiResponse<PostListResponseDTO> searchPostsInBoard(Long boardId) {
+    public ApiResponse<PostListResponseDTO> searchPostsInBoard(Long boardId, Integer page) {
         Board board = boardRepository.findById(boardId).orElseThrow(() -> new BoardHandler(ErrorCode.BOARD_NOT_EXIST));
-        PostListResponseDTO postListResponseDTO = new PostListResponseDTO(postRepository.findPostsByBoard(board));
+        PostListResponseDTO postListResponseDTO = new PostListResponseDTO(postRepository.findPostsByBoardOrderByCreatedAtDesc(board, PageRequest.of(page, 10)).getContent());
         return ApiResponse.onSuccess(postListResponseDTO);
     }
 

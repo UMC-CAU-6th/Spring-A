@@ -33,13 +33,13 @@ public class PostController {
     }
 
     @GetMapping("/posts") // 전체 및 조건 조회
-    public ApiResponse<PostListResponseDTO> getPostList() {
-        return postService.searchPosts();
+    public ApiResponse<PostListResponseDTO> getPostList(@RequestParam Integer page) {
+        return postService.searchPosts(page);
     }
 
     @GetMapping("/boards/{boardId}/posts") // 게시판 내부에서 전체 및 조건 조회
-    public ApiResponse<PostListResponseDTO> getPostListInBoard(@Valid @PathVariable Long boardId) {
-        return postService.searchPostsInBoard(boardId);
+    public ApiResponse<PostListResponseDTO> getPostListInBoard(@Valid @PathVariable Long boardId, @RequestParam Integer page) {
+        return postService.searchPostsInBoard(boardId, page);
     }
 
     @PutMapping("/posts/{postId}")

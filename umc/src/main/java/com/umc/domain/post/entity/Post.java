@@ -46,8 +46,10 @@ public class Post extends BaseTimeEntity {
     private String status;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    @Builder.Default
     private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    @Builder.Default
     private List<PostLike> postLikes = new ArrayList<>();
 }
