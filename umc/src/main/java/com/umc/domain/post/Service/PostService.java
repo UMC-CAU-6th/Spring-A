@@ -61,69 +61,15 @@ public class PostService {
         return ApiResponse.onSuccess(postResponseDTO);
     }
 
-    public ApiResponse<PostListResponseDTO> searchPosts(String title, Long posterId, String status) {
-        if (title == null && posterId == null && status == null) {
-            PostListResponseDTO postListResponseDTO = new PostListResponseDTO(postRepository.findAll());
-            return ApiResponse.onSuccess(postListResponseDTO);
-        } else if (title == null && posterId == null && status != null) {
-            PostListResponseDTO postListResponseDTO = new PostListResponseDTO(postRepository.findPostsByStatus(status));
-            return ApiResponse.onSuccess(postListResponseDTO);
-        } else if (title == null && posterId != null && status == null) {
-            Member poster = memberRepository.findById(posterId).orElseThrow(() -> new UserHandler(ErrorCode.MEMBER_NOT_FOUND));
-            PostListResponseDTO postListResponseDTO = new PostListResponseDTO(postRepository.findPostsByPoster(poster));
-            return ApiResponse.onSuccess(postListResponseDTO);
-        } else if (title == null && posterId != null && status != null) {
-            Member poster = memberRepository.findById(posterId).orElseThrow(() -> new UserHandler(ErrorCode.MEMBER_NOT_FOUND));
-            PostListResponseDTO postListResponseDTO = new PostListResponseDTO(postRepository.findPostsByPosterAndStatus(poster, status));
-            return ApiResponse.onSuccess(postListResponseDTO);
-        } else if (title != null && posterId == null && status == null) {
-            PostListResponseDTO postListResponseDTO = new PostListResponseDTO(postRepository.findPostsByTitle(title));
-            return ApiResponse.onSuccess(postListResponseDTO);
-        } else if (title != null && posterId == null && status != null) {
-            PostListResponseDTO postListResponseDTO = new PostListResponseDTO(postRepository.findPostsByTitleAndStatus(title, status));
-            return ApiResponse.onSuccess(postListResponseDTO);
-        } else if (title != null && posterId != null && status == null) {
-            Member poster = memberRepository.findById(posterId).orElseThrow(() -> new UserHandler(ErrorCode.MEMBER_NOT_FOUND));
-            PostListResponseDTO postListResponseDTO = new PostListResponseDTO(postRepository.findPostsByTitleAndPoster(title, poster));
-            return ApiResponse.onSuccess(postListResponseDTO);
-        } else { // (title != null && posterId != null && status != null)
-            Member poster = memberRepository.findById(posterId).orElseThrow(() -> new UserHandler(ErrorCode.MEMBER_NOT_FOUND));
-            PostListResponseDTO postListResponseDTO = new PostListResponseDTO(postRepository.findPostsByTitleAndPosterAndStatus(title, poster, status));
-            return ApiResponse.onSuccess(postListResponseDTO);
-        }
+    public ApiResponse<PostListResponseDTO> searchPosts() {
+        PostListResponseDTO postListResponseDTO = new PostListResponseDTO(postRepository.findAll());
+        return ApiResponse.onSuccess(postListResponseDTO);
     }
 
-    public ApiResponse<PostListResponseDTO> searchPostsInBoard(Long boardId, String title, Long posterId, String status) {
+    public ApiResponse<PostListResponseDTO> searchPostsInBoard(Long boardId) {
         Board board = boardRepository.findById(boardId).orElseThrow(() -> new BoardHandler(ErrorCode.BOARD_NOT_EXIST));
-        if (title == null && posterId == null && status == null) {
-            PostListResponseDTO postListResponseDTO = new PostListResponseDTO(postRepository.findPostsByBoard(board));
-            return ApiResponse.onSuccess(postListResponseDTO);
-        } else if (title == null && posterId == null && status != null) {
-            PostListResponseDTO postListResponseDTO = new PostListResponseDTO(postRepository.findPostsByBoardAndStatus(board, status));
-            return ApiResponse.onSuccess(postListResponseDTO);
-        } else if (title == null && posterId != null && status == null) {
-            Member poster = memberRepository.findById(posterId).orElseThrow(() -> new UserHandler(ErrorCode.MEMBER_NOT_FOUND));
-            PostListResponseDTO postListResponseDTO = new PostListResponseDTO(postRepository.findPostsByBoardAndPoster(board, poster));
-            return ApiResponse.onSuccess(postListResponseDTO);
-        } else if (title == null && posterId != null && status != null) {
-            Member poster = memberRepository.findById(posterId).orElseThrow(() -> new UserHandler(ErrorCode.MEMBER_NOT_FOUND));
-            PostListResponseDTO postListResponseDTO = new PostListResponseDTO(postRepository.findPostsByBoardAndPosterAndStatus(board, poster, status));
-            return ApiResponse.onSuccess(postListResponseDTO);
-        } else if (title != null && posterId == null && status == null) {
-            PostListResponseDTO postListResponseDTO = new PostListResponseDTO(postRepository.findPostsByBoardAndTitle(board, title));
-            return ApiResponse.onSuccess(postListResponseDTO);
-        } else if (title != null && posterId == null && status != null) {
-            PostListResponseDTO postListResponseDTO = new PostListResponseDTO(postRepository.findPostsByBoardAndTitleAndStatus(board, title, status));
-            return ApiResponse.onSuccess(postListResponseDTO);
-        } else if (title != null && posterId != null && status == null) {
-            Member poster = memberRepository.findById(posterId).orElseThrow(() -> new UserHandler(ErrorCode.MEMBER_NOT_FOUND));
-            PostListResponseDTO postListResponseDTO = new PostListResponseDTO(postRepository.findPostsByBoardAndTitleAndPoster(board, title, poster));
-            return ApiResponse.onSuccess(postListResponseDTO);
-        } else { // (title != null && posterId != null && status != null)
-            Member poster = memberRepository.findById(posterId).orElseThrow(() -> new UserHandler(ErrorCode.MEMBER_NOT_FOUND));
-            PostListResponseDTO postListResponseDTO = new PostListResponseDTO(postRepository.findPostsByBoardAndTitleAndPosterAndStatus(board, title, poster, status));
-            return ApiResponse.onSuccess(postListResponseDTO);
-        }
+        PostListResponseDTO postListResponseDTO = new PostListResponseDTO(postRepository.findPostsByBoard(board));
+        return ApiResponse.onSuccess(postListResponseDTO);
     }
 
     public ApiResponse<PostResponseDTO> updatePost(Long postId, PostUpdateRequestDTO postUpdateRequestDTO) {

@@ -33,22 +33,13 @@ public class PostController {
     }
 
     @GetMapping("/posts") // 전체 및 조건 조회
-    public ApiResponse<PostListResponseDTO> getPostList(
-            @RequestParam(required = false) String title,
-            @RequestParam(required = false) Long posterId,
-            @RequestParam(required = false) String status
-    ) {
-        return postService.searchPosts(title, posterId, status);
+    public ApiResponse<PostListResponseDTO> getPostList() {
+        return postService.searchPosts();
     }
 
     @GetMapping("/boards/{boardId}/posts") // 게시판 내부에서 전체 및 조건 조회
-    public ApiResponse<PostListResponseDTO> getPostListInBoard(
-            @Valid @PathVariable Long boardId,
-            @RequestParam(required = false) String title,
-            @RequestParam(required = false) Long posterId,
-            @RequestParam(required = false) String status
-    ) {
-        return postService.searchPostsInBoard(boardId, title, posterId, status);
+    public ApiResponse<PostListResponseDTO> getPostListInBoard(@Valid @PathVariable Long boardId) {
+        return postService.searchPostsInBoard(boardId);
     }
 
     @PutMapping("/posts/{postId}")

@@ -43,4 +43,5 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findPostsByBoardAndTitleAndPoster(Board board, String title, Member poster);
 
     List<Post> findPostsByBoardAndTitleAndPosterAndStatus(Board board, String title, Member poster, String status);
+
 }
