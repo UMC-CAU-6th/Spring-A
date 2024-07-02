@@ -26,7 +26,7 @@ public class PostResponseDTO {
         id = post.getId();
         title = post.getTitle();
         content = post.getContent();
-        likes = post.getLikes();
+        likes = post.getPostLikes().size();
         status = post.getStatus();
         boardId = post.getBoard().getId();
         posterId = post.getPoster().getId();

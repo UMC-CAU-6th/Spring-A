@@ -27,6 +27,11 @@ public class PostController {
         return postService.deletePost(postId);
     }
 
+    @GetMapping("/posts/{postId}")
+    public ApiResponse<PostResponseDTO> getPost(@Valid @PathVariable Long postId) {
+        return postService.getPost(postId);
+    }
+
     @GetMapping("/posts") // 전체 및 조건 조회
     public ApiResponse<PostListResponseDTO> getPostList(
             @RequestParam(required = false) String title,

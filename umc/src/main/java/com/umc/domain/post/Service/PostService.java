@@ -54,6 +54,13 @@ public class PostService {
         return ApiResponse.of(SuccessCode._OK, "게시물이 성공적으로 삭제되었습니다.");
     }
 
+    public ApiResponse<PostResponseDTO> getPost(Long id) {
+        Post post = postRepository.findById(id).orElseThrow(() -> new PostHandler(ErrorCode.POST_NOT_EXIST));
+
+        PostResponseDTO postResponseDTO = new PostResponseDTO(post);
+        return ApiResponse.onSuccess(postResponseDTO);
+    }
+
     public ApiResponse<PostListResponseDTO> searchPosts(String title, Long posterId, String status) {
         if (title == null && posterId == null && status == null) {
             PostListResponseDTO postListResponseDTO = new PostListResponseDTO(postRepository.findAll());
@@ -87,7 +94,7 @@ public class PostService {
     }
 
     public ApiResponse<PostListResponseDTO> searchPostsInBoard(Long boardId, String title, Long posterId, String status) {
-        Board board = boardRepository.findById(boardId).orElseThrow(() -> new BoardHandler(ErrorCode.MEMBER_NOT_FOUND));
+        Board board = boardRepository.findById(boardId).orElseThrow(() -> new BoardHandler(ErrorCode.BOARD_NOT_EXIST));
         if (title == null && posterId == null && status == null) {
             PostListResponseDTO postListResponseDTO = new PostListResponseDTO(postRepository.findPostsByBoard(board));
             return ApiResponse.onSuccess(postListResponseDTO);

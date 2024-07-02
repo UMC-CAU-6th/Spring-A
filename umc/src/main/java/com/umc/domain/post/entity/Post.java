@@ -4,6 +4,7 @@ package com.umc.domain.post.entity;
 import com.umc.common.entity.BaseTimeEntity;
 import com.umc.domain.board.entity.Board;
 import com.umc.domain.comment.entity.Comment;
+import com.umc.domain.postLike.entity.PostLike;
 import com.umc.domain.user.entity.Member;
 import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
@@ -38,10 +39,6 @@ public class Post extends BaseTimeEntity {
 
     private String content;
 
-    @Column(columnDefinition = "BIGINT DEFAULT 0")
-    @Builder.Default
-    private Integer likes = 1000;
-
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member poster;
@@ -50,4 +47,7 @@ public class Post extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private List<PostLike> postLikes = new ArrayList<>();
 }
