@@ -34,7 +34,6 @@ public class CommentService {
         Post post = postRepository.findById(commentCreateRequestDTO.getPostId()).orElseThrow(() -> new PostHandler(ErrorCode.POST_NOT_EXIST));
 
         Comment comment = Comment.builder()
-                .likes(0)
                 .status("AVAILABLE")
                 .post(post)
                 .commenter(commenter)
@@ -67,14 +66,6 @@ public class CommentService {
 
     public ApiResponse<CommentResponseDTO> getComment(Long id) {
         Comment comment = commentRepository.findById(id).orElseThrow(() -> new CommentHandler(ErrorCode.COMMENT_NOT_EXIST));
-        CommentResponseDTO commentResponseDTO = new CommentResponseDTO(comment);
-        return ApiResponse.onSuccess(commentResponseDTO);
-    }
-
-    public ApiResponse<CommentResponseDTO> likeComment(Long id) {
-        Comment comment = commentRepository.findById(id).orElseThrow(() -> new CommentHandler(ErrorCode.COMMENT_NOT_EXIST));
-        comment.setLikes(comment.getLikes() + 1);
-
         CommentResponseDTO commentResponseDTO = new CommentResponseDTO(comment);
         return ApiResponse.onSuccess(commentResponseDTO);
     }

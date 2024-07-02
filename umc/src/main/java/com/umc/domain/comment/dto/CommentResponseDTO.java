@@ -22,10 +22,10 @@ public class CommentResponseDTO {
         id = comment.getId();
         postId = comment.getPost().getId();
         content = comment.getContent();
-        likes = comment.getLikes();
         commenterId = comment.getCommenter().getId();
         status = comment.getStatus();
         createdAt = comment.getCreatedAt();
         modifiedAt = comment.getModifiedAt();
+        likes = comment.getCommentLikes().size();
     }
 }
