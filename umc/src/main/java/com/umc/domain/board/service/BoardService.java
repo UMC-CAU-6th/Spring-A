@@ -30,7 +30,6 @@ public class BoardService {
         Board board = Board.builder()
                 .title(boardCreateRequestDTO.getTitle())
                 .description(boardCreateRequestDTO.getDescription())
-                .status(BoardStatus.USE)
                 .posts(new ArrayList<>())
                 .build();
         BoardResponseDTO boardResponseDTO = new BoardResponseDTO(boardRepository.save(board));

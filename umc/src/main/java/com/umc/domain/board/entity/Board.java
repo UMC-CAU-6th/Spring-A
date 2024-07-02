@@ -32,8 +32,10 @@ public class Board extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "VARCHAR(15) DEFAULT 'USE'")
+    @Builder.Default
     private BoardStatus status = BoardStatus.USE;
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    @Builder.Default
     private List<Post> posts = new ArrayList<>();
 }

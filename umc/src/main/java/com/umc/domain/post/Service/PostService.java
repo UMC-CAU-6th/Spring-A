@@ -39,7 +39,6 @@ public class PostService {
                 .board(board)
                 .poster(member)
                 .comments(new ArrayList<>())
-                .likes(0)
                 .status("AVAILABLE")
                 .build();
 

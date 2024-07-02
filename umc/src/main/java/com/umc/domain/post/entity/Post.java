@@ -39,7 +39,8 @@ public class Post extends BaseTimeEntity {
     private String content;
 
     @Column(columnDefinition = "BIGINT DEFAULT 0")
-    private Integer likes;
+    @Builder.Default
+    private Integer likes = 1000;
 
     @ManyToOne
     @JoinColumn(name = "member_id")
