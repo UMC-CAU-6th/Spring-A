@@ -34,6 +34,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 
+	// 이미지업로드
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+
 	// jwt
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
 	implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'

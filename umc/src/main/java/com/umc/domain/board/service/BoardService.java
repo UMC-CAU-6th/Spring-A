@@ -26,10 +26,11 @@ public class BoardService {
     }
 
     @Transactional
-    public ApiResponse<Void> createBoard(BoardRequestDto request) {
+    public ApiResponse<Void> createBoard(String imageUrl, BoardRequestDto request) {
         Board board = new Board();
         board.setName(request.getName());
         board.setDescription(request.getDescription());
+        board.setImageUrl(imageUrl);
         boardRepository.save(board);
         return ApiResponse.onSuccess(null);
     }
