@@ -1,5 +1,6 @@
 package com.umc.common.exception;
 
+import com.umc.common.exception.handler.PostHandler;
 import com.umc.common.response.ErrorReasonDTO;
 import com.umc.common.response.ApiResponse;
 
@@ -82,4 +83,5 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
         ApiResponse<Object> body = ApiResponse.onFailure(errorCommonStatus.getCode(), errorCommonStatus.getMessage(), null);
         return super.handleExceptionInternal(e, body, headers, errorCommonStatus.getHttpStatus(), request);
     }
+
 }
