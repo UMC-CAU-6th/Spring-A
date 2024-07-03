@@ -2,21 +2,10 @@ package com.umc.domain.Comment.entity;
 
 
 import com.umc.common.entity.BaseTimeEntity;
-import com.umc.domain.mapping.Post_Comment.Post_Comment;
 import com.umc.domain.post.entity.Posts;
 import com.umc.domain.user.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Cascade;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Getter
@@ -24,7 +13,7 @@ import java.util.stream.Collectors;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "member")
+@Table(name = "Comments")
 @AllArgsConstructor
 public class Comments extends BaseTimeEntity {
 
@@ -40,6 +29,5 @@ public class Comments extends BaseTimeEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL)
-    private List<Post_Comment> Post_CommentList = new ArrayList<>();
+    private long parent_id; // 여기서 ManyToOne을 사용해야 하는가???
 }

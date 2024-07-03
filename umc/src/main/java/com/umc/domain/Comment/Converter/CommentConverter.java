@@ -15,8 +15,8 @@ public class CommentConverter { // 로그인 안 한 경우에 대한 예외 처
 
     public static Comments toComments(CommentRequestDTO request){
         return Comments.builder()
-        .comment(request.getContent())
-        .member(SecurityUtil.getCurrentUser()).build();
+                .comment(request.getContent())
+                .member(SecurityUtil.getCurrentUser()).build();
 
     }
 

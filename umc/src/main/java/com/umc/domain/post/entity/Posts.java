@@ -2,20 +2,13 @@ package com.umc.domain.post.entity;
 
 
 import com.umc.common.entity.BaseTimeEntity;
-import com.umc.domain.mapping.Post_Comment.Post_Comment;
 import com.umc.domain.user.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Cascade;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 
 @Getter
@@ -23,7 +16,7 @@ import java.util.stream.Collectors;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "member")
+@Table(name = "Posts")
 @AllArgsConstructor
 public class Posts extends BaseTimeEntity {
 
@@ -39,6 +32,12 @@ public class Posts extends BaseTimeEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL)
-    private List<Post_Comment> Post_CommentList = new ArrayList<>();
+    private Integer Likes;
+
+    @ElementCollection
+    @CollectionTable(name = "post_likes", joinColumns = @JoinColumn(name = "post_id"))
+    @Column(name = "user_id")
+    private List<Long> LikesList; // 좋아요 누른 사용자 ID 리스트
+
+    private String pictureURL;
 }

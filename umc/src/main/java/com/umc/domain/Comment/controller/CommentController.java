@@ -32,22 +32,23 @@ public class CommentController {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final CommentRepository commentRepository;
+    private final CommentService commentService;
 
     @CrossOrigin
     @Operation(summary = "댓글 수정하는 폼 보여주기")
     @GetMapping("/edits/comment/{id}")
-    public String getEditPage(@PathVariable Long id) {
-        Optional< Comments> comment = CommentService.getComment(id);
+    public ApiResponse<Optional< Comments>> getEditPage(@PathVariable Long id) {
+        Optional<Comments> comment = commentService.getComment(id);
         //갖고 온 데이터를 이용해서 HTML에 정보를 보내고, 프론트 엔드 단에서 형식에 맞게 보여주기
         //전송 버튼을 누르면 수정된 정보를 PUT 요청함.
-        return null; //'HTML 페이지 보내주기'
+        return ApiResponse.onSuccess(comment); //'HTML 페이지 보내주기'
     }
 
     @CrossOrigin
     @Operation(summary = "댓글 작성")
     @PostMapping("/comments")
     public ApiResponse<CommentResponseDTO> writePost(@Valid @RequestBody CommentRequestDTO commentRequestDTO) {
-        Comments comment = CommentService.writeComment(commentRequestDTO);
+        Comments comment = commentService.writeComment(commentRequestDTO);
         return ApiResponse.onSuccess(CommentConverter.CreateCommentResponseDTO(comment));
     }
 
@@ -55,7 +56,7 @@ public class CommentController {
     @Operation(summary = "댓글 수정")
     @PutMapping("/edits/comment/{id}")
     public ApiResponse<CommentResponseDTO> editComment(@PathVariable Long id, @RequestBody CommentRequestDTO commentRequestDTO) {
-        Comments comments = CommentService.editPost(commentRequestDTO, id);
+        Comments comments = commentService.editPost(commentRequestDTO, id);
         return ApiResponse.onSuccess(CommentConverter.CreateCommentResponseDTO(comments));
     } // 실패한 경우는 어떻게 처리하는지?
 
@@ -63,7 +64,7 @@ public class CommentController {
     @Operation(summary = "댓글 삭제")
     @DeleteMapping("/comment/{id}")
     public ApiResponse<DeleteResponseDTO> deletePost(@PathVariable Long id) {
-        return ApiResponse.onSuccess(CommentService.deletePost(id));
+        return ApiResponse.onSuccess(commentService.deletePost(id));
     }
 
 }
