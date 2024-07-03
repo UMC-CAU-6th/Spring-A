@@ -1,5 +1,6 @@
 package com.umc.domain.post.Service;
 
+import com.umc.aws.s3.AmazonS3Manager;
 import com.umc.common.exception.handler.BoardHandler;
 import com.umc.common.exception.handler.PostHandler;
 import com.umc.common.exception.handler.UserHandler;
@@ -13,14 +14,19 @@ import com.umc.domain.post.dto.PostListResponseDTO;
 import com.umc.domain.post.dto.PostResponseDTO;
 import com.umc.domain.post.dto.PostUpdateRequestDTO;
 import com.umc.domain.post.entity.Post;
+import com.umc.domain.post.entity.PostImage;
+import com.umc.domain.post.repository.PostImageRepository;
 import com.umc.domain.post.repository.PostRepository;
 import com.umc.domain.user.entity.Member;
 import com.umc.domain.user.repository.MemberRepository;
+import com.umc.domain.uuid.entity.Uuid;
+import com.umc.domain.uuid.repository.UuidRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -29,10 +35,17 @@ public class PostService {
     private final PostRepository postRepository;
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
+    private final AmazonS3Manager amazonS3Manager;
+    private final UuidRepository uuidRepository;
+    private final PostImageRepository postImageRepository;
 
     public ApiResponse<PostResponseDTO> createPost(PostCreateRequestDTO postCreateRequestDTO) {
         Board board = boardRepository.findById(postCreateRequestDTO.getBoardId()).orElseThrow(() -> new BoardHandler(ErrorCode.BOARD_NOT_EXIST));
         Member member = memberRepository.findById(postCreateRequestDTO.getPosterId()).orElseThrow(() -> new UserHandler(ErrorCode.MEMBER_NOT_FOUND));
+
+        String uuid = UUID.randomUUID().toString();
+        Uuid savedUuid = uuidRepository.save(Uuid.builder()
+                .uuid(uuid).build());
 
         Post post = Post.builder()
                 .title(postCreateRequestDTO.getTitle())
@@ -43,7 +56,15 @@ public class PostService {
                 .status("AVAILABLE")
                 .build();
 
+        String pictureUrl = amazonS3Manager.uploadFile(amazonS3Manager.generatePostKeyName(savedUuid), postCreateRequestDTO.getReviewPicture());
+        PostImage postImage = PostImage.builder()
+                .imageUrl(pictureUrl)
+                .post(post)
+                .build();
+
+        postImageRepository.save(postImage);
         PostResponseDTO postResponseDTO = new PostResponseDTO(postRepository.save(post));
+
 
         return ApiResponse.onSuccess(postResponseDTO);
     }

@@ -2,6 +2,7 @@ package com.umc.domain.post.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
@@ -10,4 +11,5 @@ public class PostCreateRequestDTO {
     private String content;
     private Long boardId;
     private Long posterId;
+    private MultipartFile reviewPicture;
 }
