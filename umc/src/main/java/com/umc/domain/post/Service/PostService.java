@@ -6,6 +6,7 @@ import com.umc.common.exception.handler.UserHandler;
 import com.umc.common.response.ApiResponse;
 import com.umc.common.response.status.ErrorCode;
 import com.umc.common.response.status.SuccessCode;
+import com.umc.common.s3.AmazonS3Manager;
 import com.umc.domain.board.entity.Board;
 import com.umc.domain.board.repository.BoardRepository;
 import com.umc.domain.post.dto.PostCreateRequestDTO;
@@ -13,7 +14,11 @@ import com.umc.domain.post.dto.PostListResponseDTO;
 import com.umc.domain.post.dto.PostResponseDTO;
 import com.umc.domain.post.dto.PostUpdateRequestDTO;
 import com.umc.domain.post.entity.Post;
+import com.umc.domain.post.entity.PostImage;
+import com.umc.domain.post.entity.Uuid;
+import com.umc.domain.post.repository.PostImageRepository;
 import com.umc.domain.post.repository.PostRepository;
+import com.umc.domain.post.repository.UuidRepository;
 import com.umc.domain.user.entity.Member;
 import com.umc.domain.user.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +26,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +35,10 @@ public class PostService {
     private final PostRepository postRepository;
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
+    private final AmazonS3Manager s3Manager;
+    private final UuidRepository uuidRepository;
+    private final PostImageRepository postImageRepository;
+
 
     public ApiResponse<PostResponseDTO> createPost(PostCreateRequestDTO postCreateRequestDTO) {
         Board board = boardRepository.findById(postCreateRequestDTO.getBoardId()).orElseThrow(() -> new BoardHandler(ErrorCode.BOARD_NOT_EXIST));
@@ -43,8 +53,22 @@ public class PostService {
                 .status("AVAILABLE")
                 .build();
 
-        PostResponseDTO postResponseDTO = new PostResponseDTO(postRepository.save(post));
+        postRepository.save(post); // 먼저 Post 객체를 저장
 
+        String uuid = UUID.randomUUID().toString();
+        Uuid savedUuid = uuidRepository.save(Uuid.builder().uuid(uuid).build());
+        String pictureUrl = s3Manager.uploadFild(s3Manager.generatePostName(savedUuid), postCreateRequestDTO.getPostImage());
+
+        PostImage postImage = PostImage.builder()
+                .url(pictureUrl)
+                .post(post)
+                .build();
+
+        postImageRepository.save(postImage); // 그 후에 PostImage 객체를 저장
+
+        post.setPostImage(postImage); // Post 객체에 PostImage 객체를 설정
+
+        PostResponseDTO postResponseDTO = new PostResponseDTO(postRepository.save(post));
         return ApiResponse.onSuccess(postResponseDTO);
     }
 

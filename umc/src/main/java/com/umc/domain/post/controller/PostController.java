@@ -17,8 +17,8 @@ public class PostController {
 
     private final PostService postService;
 
-    @PostMapping("/posts") // 생성
-    public ApiResponse<PostResponseDTO> createPost(@Valid @RequestBody PostCreateRequestDTO postCreateRequestDTO) {
+    @PostMapping(value = "/posts", consumes = "multipart/form-data") // 생성
+    public ApiResponse<PostResponseDTO> createPost(@ModelAttribute PostCreateRequestDTO postCreateRequestDTO) {
         return postService.createPost(postCreateRequestDTO);
     }
 
