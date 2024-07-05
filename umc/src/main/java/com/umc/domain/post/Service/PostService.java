@@ -51,22 +51,25 @@ public class PostService {
                 .poster(member)
                 .comments(new ArrayList<>())
                 .status("AVAILABLE")
+                .postImage(null)
                 .build();
 
-        postRepository.save(post); // 먼저 Post 객체를 저장
+        postRepository.save(post);
 
-        String uuid = UUID.randomUUID().toString();
-        Uuid savedUuid = uuidRepository.save(Uuid.builder().uuid(uuid).build());
-        String pictureUrl = s3Manager.uploadFild(s3Manager.generatePostName(savedUuid), postCreateRequestDTO.getPostImage());
+        if (postCreateRequestDTO.getPostImage() != null) {
+            String uuid = UUID.randomUUID().toString();
+            Uuid savedUuid = uuidRepository.save(Uuid.builder().uuid(uuid).build());
+            String pictureUrl = s3Manager.uploadFild(s3Manager.generatePostName(savedUuid), postCreateRequestDTO.getPostImage());
 
-        PostImage postImage = PostImage.builder()
-                .url(pictureUrl)
-                .post(post)
-                .build();
+            PostImage postImage = PostImage.builder()
+                    .url(pictureUrl)
+                    .post(post)
+                    .build();
 
-        postImageRepository.save(postImage); // 그 후에 PostImage 객체를 저장
+            postImageRepository.save(postImage);
 
-        post.setPostImage(postImage); // Post 객체에 PostImage 객체를 설정
+            post.setPostImage(postImage);
+        }
 
         PostResponseDTO postResponseDTO = new PostResponseDTO(postRepository.save(post));
         return ApiResponse.onSuccess(postResponseDTO);

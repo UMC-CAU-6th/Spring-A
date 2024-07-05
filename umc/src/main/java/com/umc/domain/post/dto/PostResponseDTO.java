@@ -32,7 +32,7 @@ public class PostResponseDTO {
         status = post.getStatus();
         boardId = post.getBoard().getId();
         posterId = post.getPoster().getId();
-        postImageUrl = post.getPostImage().getUrl();
+        postImageUrl = post.getPostImage() != null ? post.getPostImage().getUrl() : "";
         createdAt = post.getCreatedAt();
         modifiedAt = post.getModifiedAt();
         commentList = new CommentListPesponseDTO(post.getComments() != null ? post.getComments() : new ArrayList<>());

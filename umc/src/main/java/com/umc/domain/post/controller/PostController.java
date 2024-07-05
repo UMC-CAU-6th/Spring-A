@@ -19,6 +19,7 @@ public class PostController {
 
     @PostMapping(value = "/posts", consumes = "multipart/form-data") // 생성
     public ApiResponse<PostResponseDTO> createPost(@ModelAttribute PostCreateRequestDTO postCreateRequestDTO) {
+        System.out.println(postCreateRequestDTO);
         return postService.createPost(postCreateRequestDTO);
     }
 
