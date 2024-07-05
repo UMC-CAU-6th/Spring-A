@@ -3,6 +3,7 @@ package com.umc.domain.post.Service;
 import com.umc.common.exception.handler.BoardHandler;
 import com.umc.common.exception.handler.PostHandler;
 import com.umc.common.exception.handler.UserHandler;
+import com.umc.common.jwt.SecurityUtil;
 import com.umc.common.response.ApiResponse;
 import com.umc.common.response.status.ErrorCode;
 import com.umc.common.response.status.SuccessCode;
@@ -42,7 +43,7 @@ public class PostService {
 
     public ApiResponse<PostResponseDTO> createPost(PostCreateRequestDTO postCreateRequestDTO) {
         Board board = boardRepository.findById(postCreateRequestDTO.getBoardId()).orElseThrow(() -> new BoardHandler(ErrorCode.BOARD_NOT_EXIST));
-        Member member = memberRepository.findById(postCreateRequestDTO.getPosterId()).orElseThrow(() -> new UserHandler(ErrorCode.MEMBER_NOT_FOUND));
+        Member member = memberRepository.findByEmail(SecurityUtil.getCurrentUserEmail()).orElseThrow(() -> new UserHandler(ErrorCode._UNAUTHORIZED));
 
         Post post = Post.builder()
                 .title(postCreateRequestDTO.getTitle())

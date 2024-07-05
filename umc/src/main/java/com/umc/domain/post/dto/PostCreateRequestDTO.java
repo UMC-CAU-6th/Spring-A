@@ -10,6 +10,5 @@ public class PostCreateRequestDTO {
     private String title;
     private String content;
     private Long boardId;
-    private Long posterId;
     private MultipartFile postImage;
 }
