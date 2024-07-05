@@ -63,7 +63,7 @@ public class PostService {
     }
 
     public ApiResponse<PostListResponseDTO> searchPosts(Integer page) {
-        PostListResponseDTO postListResponseDTO = new PostListResponseDTO(postRepository.findAllOrderByCreatedAtDesc(PageRequest.of(page, 10)).getContent());
+        PostListResponseDTO postListResponseDTO = new PostListResponseDTO(postRepository.findAllByOrderByCreatedAtDesc(PageRequest.of(page, 10)).getContent());
         return ApiResponse.onSuccess(postListResponseDTO);
     }
 
