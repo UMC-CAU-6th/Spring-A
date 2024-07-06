@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 import com.umc.common.entity.BaseTimeEntity;
+import com.umc.domain.comment.entity.Comment;
+import com.umc.domain.post.entity.Post;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -40,6 +42,12 @@ public class Member extends BaseTimeEntity implements UserDetails {
     private String password; // 비밀번호
     @Column
     private String nickname; // 닉네임
+
+    @OneToMany(mappedBy = "poster")
+    private List<Post> posts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "commenter")
+    private List<Comment> comments = new ArrayList<>();
 
     @Column
     @ElementCollection(fetch = FetchType.EAGER)

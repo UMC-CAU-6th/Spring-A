@@ -8,15 +8,21 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.filter.ForwardedHeaderFilter;
 
 @Configuration
 public class SwaggerConfig {
 
     @Bean
+    ForwardedHeaderFilter forwardedHeaderFilter() {
+        return new ForwardedHeaderFilter();
+    }
+
+    @Bean
     public OpenAPI SchrodingerApi() {
         Info info = new Info()
-                .title("BuddyU API")
-                .description("BuddyU API 명세서")
+                .title("제목")
+                .description("명세서 설명")
                 .version("1.0.0");
 
         String jwtSchemeName = "JWT TOKEN";
